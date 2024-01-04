@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"group": "MISC", "id": "Official Goods Partnership Game", "label": "Official Goods Partnership Game", "shape": "dot", "title": "Official Goods Partnership Game"}, {"group": "ORG", "id": "Nongshim Red Force VEXX", "label": "Nongshim Red Force VEXX", "shape": "dot", "title": "Nongshim Red Force VEXX"}, {"group": "MISC", "id": "Indonesian", "label": "Indonesian", "shape": "dot", "title": "Indonesian"}, {"group": "ORG", "id": "FANC", "label": "FANC", "shape": "dot", "title": "FANC"}, {"group": "MISC", "id": "Grab Partnership Daily Cue", "label": "Grab Partnership Daily Cue", "shape": "dot", "title": "Grab Partnership Daily Cue"}, {"group": "LOC", "id": "Indonesia", "label": "Indonesia", "shape": "dot", "title": "Indonesia"}, {"group": "MISC", "id": "Dealer Partnership Contract Newspym", "label": "Dealer Partnership Contract Newspym", "shape": "dot", "title": "Dealer Partnership Contract Newspym"}, {"group": "ORG", "id": "Shinhan Card Kazakhstan", "label": "Shinhan Card Kazakhstan", "shape": "dot", "title": "Shinhan Card Kazakhstan"}, {"group": "ORG", "id": "Venture Square", "label": "Venture Square", "shape": "dot", "title": "Venture Square"}, {"group": "LOC", "id": "Canada", "label": "Canada", "shape": "dot", "title": "Canada"}, {"group": "ORG", "id": "Japan Partnership New Era Chosun Ilbo", "label": "Japan Partnership New Era Chosun Ilbo", "shape": "dot", "title": "Japan Partnership New Era Chosun Ilbo"}, {"group": "LOC", "id": "Korea", "label": "Korea", "shape": "dot", "title": "Korea"}, {"group": "ORG", "id": "Money S", "label": "Money S", "shape": "dot", "title": "Money S"}, {"group": "LOC", "id": "Kazakhstan", "label": "Kazakhstan", "shape": "dot", "title": "Kazakhstan"}, {"group": "ORG", "id": "Chosun Biz Chosun Biz", "label": "Chosun Biz Chosun Biz", "shape": "dot", "title": "Chosun Biz Chosun Biz"}, {"group": "PER", "id": "Akanishi Jean", "label": "Akanishi Jean", "shape": "dot", "title": "Akanishi Jean"}, {"group": "LOC", "id": "Japan", "label": "Japan", "shape": "dot", "title": "Japan"}, {"group": "MISC", "id": "Japanese", "label": "Japanese", "shape": "dot", "title": "Japanese"}, {"group": "ORG", "id": "Kinko Partnership", "label": "Kinko Partnership", "shape": "dot", "title": "Kinko Partnership"}, {"group": "MISC", "id": "AI Startup Technology Problems Solving Partnership Partnership Day", "label": "AI Startup Technology Problems Solving Partnership Partnership Day", "shape": "dot", "title": "AI Startup Technology Problems Solving Partnership Partnership Day"}, {"group": "ORG", "id": "Seoul AI Hub Canada Mila Research Institute", "label": "Seoul AI Hub Canada Mila Research Institute", "shape": "dot", "title": "Seoul AI Hub Canada Mila Research Institute"}, {"group": "ORG", "id": "Nate News", "label": "Nate News", "shape": "dot", "title": "Nate News"}, {"group": "LOC", "id": "UAE", "label": "UAE", "shape": "dot", "title": "UAE"}, {"group": "MISC", "id": "Mituon Micham Meors Com2us Expla Blockchain Game Partnership", "label": "Mituon Micham Meors Com2us Expla Blockchain Game Partnership", "shape": "dot", "title": "Mituon Micham Meors Com2us Expla Blockchain Game Partnership"}, {"group": "ORG", "id": "Yonhap News", "label": "Yonhap News", "shape": "dot", "title": "Yonhap News"}, {"group": "MISC", "id": "Puddy Bus Gyeongju Livestock Agricultural Cooperative Gyeongju Millennium Hanwoo Competitiveness Strategic Partnership", "label": "Puddy Bus Gyeongju Livestock Agricultural Cooperative Gyeongju Millennium Hanwoo Competitiveness Strategic Partnership", "shape": "dot", "title": "Puddy Bus Gyeongju Livestock Agricultural Cooperative Gyeongju Millennium Hanwoo Competitiveness Strategic Partnership"}, {"group": "ORG", "id": "Seoul Economic TV", "label": "Seoul Economic TV", "shape": "dot", "title": "Seoul Economic TV"}, {"group": "MISC", "id": "XPLA Miss Miss Partnership", "label": "XPLA Miss Miss Partnership", "shape": "dot", "title": "XPLA Miss Miss Partnership"}, {"group": "ORG", "id": "Electric Newspaper", "label": "Electric Newspaper", "shape": "dot", "title": "Electric Newspaper"}, {"group": "MISC", "id": "Microsoft Open AI Partnership Partnership Investigation Investigation of Investigations of Violation of Monitoring Act", "label": "Microsoft Open AI Partnership Partnership Investigation Investigation of Investigations of Violation of Monitoring Act", "shape": "dot", "title": "Microsoft Open AI Partnership Partnership Investigation Investigation of Investigations of Violation of Monitoring Act"}, {"group": "ORG", "id": "AI", "label": "AI", "shape": "dot", "title": "AI"}, {"group": "LOC", "id": "United States", "label": "United States", "shape": "dot", "title": "United States"}, {"group": "MISC", "id": "Com2S Platform Beautiful Games Taiyaki Universe Joint", "label": "Com2S Platform Beautiful Games Taiyaki Universe Joint", "shape": "dot", "title": "Com2S Platform Beautiful Games Taiyaki Universe Joint"}, {"group": "ORG", "id": "Business Partnership Newspim", "label": "Business Partnership Newspim", "shape": "dot", "title": "Business Partnership Newspim"}, {"group": "ORG", "id": "Seoul Economic Economic Daily", "label": "Seoul Economic Economic Daily", "shape": "dot", "title": "Seoul Economic Economic Daily"}, {"group": "PER", "id": "Son Heung", "label": "Son Heung", "shape": "dot", "title": "Son Heung"}, {"group": "MISC", "id": "guk Korean", "label": "guk Korean", "shape": "dot", "title": "guk Korean"}, {"group": "ORG", "id": "Yonhap News TV", "label": "Yonhap News TV", "shape": "dot", "title": "Yonhap News TV"}, {"group": "PER", "id": "Yun", "label": "Yun", "shape": "dot", "title": "Yun"}, {"group": "MISC", "id": "Com2S Platform Beautiful Games", "label": "Com2S Platform Beautiful Games", "shape": "dot", "title": "Com2S Platform Beautiful Games"}, {"group": "ORG", "id": "Seoul Economic Newspaper", "label": "Seoul Economic Newspaper", "shape": "dot", "title": "Seoul Economic Newspaper"}, {"group": "ORG", "id": "Japan Youth Partnership Yonhap News for Friendship", "label": "Japan Youth Partnership Yonhap News for Friendship", "shape": "dot", "title": "Japan Youth Partnership Yonhap News for Friendship"}, {"group": "LOC", "id": "Seoul", "label": "Seoul", "shape": "dot", "title": "Seoul"}, {"group": "ORG", "id": "Baby News", "label": "Baby News", "shape": "dot", "title": "Baby News"}, {"group": "PER", "id": "Adidas", "label": "Adidas", "shape": "dot", "title": "Adidas"}, {"group": "LOC", "id": "Italy", "label": "Italy", "shape": "dot", "title": "Italy"}, {"group": "MISC", "id": "Dong -A Ilbo", "label": "Dong -A Ilbo", "shape": "dot", "title": "Dong -A Ilbo"}, {"group": "PER", "id": "Yoon", "label": "Yoon", "shape": "dot", "title": "Yoon"}, {"group": "ORG", "id": "Hyundai Motor Sanda Magon Hyundai Motor Company Partnership Yonhap News", "label": "Hyundai Motor Sanda Magon Hyundai Motor Company Partnership Yonhap News", "shape": "dot", "title": "Hyundai Motor Sanda Magon Hyundai Motor Company Partnership Yonhap News"}, {"group": "LOC", "id": "Amazon", "label": "Amazon", "shape": "dot", "title": "Amazon"}]);
+                  edges = new vis.DataSet([{"from": "Official Goods Partnership Game", "to": "Nongshim Red Force VEXX"}, {"from": "Indonesian", "to": "FANC"}, {"from": "Grab Partnership Daily Cue", "to": "Indonesia"}, {"from": "Dealer Partnership Contract Newspym", "to": "Shinhan Card Kazakhstan"}, {"from": "Venture Square", "to": "Canada"}, {"from": "Japan Partnership New Era Chosun Ilbo", "to": "Korea"}, {"from": "Money S", "to": "Kazakhstan"}, {"from": "Chosun Biz Chosun Biz", "to": "Akanishi Jean"}, {"from": "Chosun Biz Chosun Biz", "to": "Japan"}, {"from": "Chosun Biz Chosun Biz", "to": "Son Heung"}, {"from": "Akanishi Jean", "to": "Japan"}, {"from": "Japanese", "to": "Kinko Partnership"}, {"from": "AI Startup Technology Problems Solving Partnership Partnership Day", "to": "Seoul AI Hub Canada Mila Research Institute"}, {"from": "Nate News", "to": "UAE"}, {"from": "Mituon Micham Meors Com2us Expla Blockchain Game Partnership", "to": "Yonhap News"}, {"from": "Puddy Bus Gyeongju Livestock Agricultural Cooperative Gyeongju Millennium Hanwoo Competitiveness Strategic Partnership", "to": "Seoul Economic TV"}, {"from": "XPLA Miss Miss Partnership", "to": "Electric Newspaper"}, {"from": "Microsoft Open AI Partnership Partnership Investigation Investigation of Investigations of Violation of Monitoring Act", "to": "AI"}, {"from": "Microsoft Open AI Partnership Partnership Investigation Investigation of Investigations of Violation of Monitoring Act", "to": "United States"}, {"from": "AI", "to": "United States"}, {"from": "Com2S Platform Beautiful Games Taiyaki Universe Joint", "to": "Business Partnership Newspim"}, {"from": "Seoul Economic Economic Daily", "to": "Son Heung"}, {"from": "guk Korean", "to": "Yonhap News TV"}, {"from": "guk Korean", "to": "Yun"}, {"from": "Yonhap News TV", "to": "Yun"}, {"from": "Com2S Platform Beautiful Games", "to": "Seoul Economic Newspaper"}, {"from": "Seoul Economic Newspaper", "to": "Italy"}, {"from": "Japan Youth Partnership Yonhap News for Friendship", "to": "Seoul"}, {"from": "Baby News", "to": "Adidas"}, {"from": "Dong -A Ilbo", "to": "Yoon"}, {"from": "Hyundai Motor Sanda Magon Hyundai Motor Company Partnership Yonhap News", "to": "Amazon"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
